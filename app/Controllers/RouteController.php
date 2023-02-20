@@ -1,5 +1,4 @@
 <?php
-namespace Controllers;
 
 class RouteController {
 
@@ -18,7 +17,7 @@ class RouteController {
         $url_controller = ($url_controller == "" ) ? "Home" : ucfirst($url_controller);
         $url_action     = isset($url_action) ? ucfirst($url_action) : null;
         $url_request    = $method.$url_controller.$url_action;
-        $route_service  = new \RouteService;
+        $route_service  = new RouteService;
         $routes         = $route_service->routes();
 
         if(array_key_exists($url_request, $routes)){
@@ -36,7 +35,7 @@ class RouteController {
                         
         }else{
             http_response_code(404);
-            (new \NotfoundController)->getNotfound();
+            (new NotfoundController)->getNotfound();
         }
     }
 

@@ -1,6 +1,5 @@
 <?php
 declare(strict_types=1);
-use Controllers\RouteController;
 
 session_start();
 error_reporting(E_ALL);
