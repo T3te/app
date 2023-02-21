@@ -1,6 +1,6 @@
 <?php
-namespace Route;
-class RouteController {
+
+class Route {
 
     private $method         = null;
     private $url_controller = null;
@@ -26,7 +26,7 @@ class RouteController {
                 require_once($page_controller_path);
                 $controller_class = '\Pages\\'.$url_controller."Controller";
                 $url_response = $routes[$url_request];
-                (new $controller_class)->$url_response();
+                (new $controller_class)->$url_response($url_controller);
 
     
             } else {
