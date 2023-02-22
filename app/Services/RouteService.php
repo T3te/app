@@ -5,9 +5,8 @@ class RouteService {
     public function routes(){
         $routes = [
             "get" => "getHome",
-            "GETAsdfasdf" => "MEGVAN",
             "getHome" => "getHome",
-            "getHomeValami" => "getHomeValami",
+            "getHome2Valami" => "getHomeValami2",
             "getNotfound" => "getNotfound"
         ];
 

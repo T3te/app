@@ -5,13 +5,14 @@ class Route {
     private $method         = null;
     private $url_controller = null;
     private $url_action     = null;
-
+    private $url_get     = null;
     public function __construct(){
         $this->splitUrl();
 
         $method         = $this->method;
         $url_controller = $this->url_controller;
         $url_action     = $this->url_action;
+        $url_get        = $this->url_get;
 
         $method         = strtolower($method);
         $url_controller = ($url_controller == "" ) ? "Home" : ucfirst($url_controller);
@@ -30,7 +31,8 @@ class Route {
 
     
             } else {
-                die("Nincs ilyen Controller");
+                logMessage('ROUTE','( '.$url_request.' ) HIBA RouteService');
+                die("Sajnáljunk valami hiba történt.");
             }
                         
         }else{
@@ -40,16 +42,21 @@ class Route {
     }
 
     public function splitUrl(){
-        $url = $_SERVER['REQUEST_URI'];
+        $url_uri = $_SERVER['REQUEST_URI'];
+        $url_get_explode = explode("?",$url_uri);
+        $url = $url_get_explode[0];
+        $url_get = isset($url_get_explode[1]) ? $url_get_explode[1] : null;
         $url =  explode("/",$url);
         $this->method = $_SERVER['REQUEST_METHOD'];
 
         if(count($url)<4){
             $this->url_controller = isset($url[1]) ? $url[1] : null;
             $this->url_action = isset($url[2]) ? $url[2] : null;
+            $this->url_get = $url_get;
         }else{
             http_response_code(404);
             $this->url_controller = "NotfoundController";
+            logMessage('404',$url_uri.' NINCS ILYEN OLDAL');
         }
 
     }
