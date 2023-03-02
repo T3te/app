@@ -3,33 +3,30 @@
 class Route {
 
     private $method         = null;
-    private $url_controller = null;
-    private $url_action     = null;
-    private $url_get     = null;
+    private $url = null;
+    private $url_get = null;
+    private $auth = null;
     public function __construct(){
         $this->splitUrl();
 
         $method         = $this->method;
-        $url_controller = $this->url_controller;
-        $url_action     = $this->url_action;
-        $url_get        = $this->url_get;
+        $url            = $this->url;
+        $auth           = $this->auth;
 
         $method         = strtolower($method);
-        $url_controller = ($url_controller == "" ) ? "Home" : ucfirst($url_controller);
-        $url_action     = isset($url_action) ? ucfirst($url_action) : null;
-        $url_request    = $method.$url_controller.$url_action;
+        $url_request    = $method.$url;
         $route_service  = new \RouteService;
         $routes         = $route_service->routes();
 
         if(array_key_exists($url_request, $routes)){
-            $page_controller_path = CONTROLLERS.'Pages/'.$url_controller."Controller.php";
+            $explode_service        = explode("@",$routes[$url_request]);
+            $route_controller       = ucfirst($explode_service[0]);
+            $route_class            = $explode_service[1];
+            $route_object           = '\Pages\\'.$route_controller.'Controller';
+            $page_controller_path   = CONTROLLERS.'Pages/'.$route_controller.'Controller.php';
             if (file_exists($page_controller_path)) {
                 require_once($page_controller_path);
-                $controller_class = '\Pages\\'.$url_controller."Controller";
-                $url_response = $routes[$url_request];
-                (new $controller_class)->$url_response($url_controller);
-
-    
+                (new $route_object )->$route_class($route_controller,$auth);
             } else {
                 logMessage('ROUTE','( '.$url_request.' ) HIBA RouteService');
                 die("Sajnáljunk valami hiba történt.");
@@ -42,22 +39,15 @@ class Route {
     }
 
     public function splitUrl(){
-        $url_uri = $_SERVER['REQUEST_URI'];
-        $url_get_explode = explode("?",$url_uri);
-        $url = $url_get_explode[0];
-        $url_get = isset($url_get_explode[1]) ? $url_get_explode[1] : null;
-        $url =  explode("/",$url);
-        $this->method = $_SERVER['REQUEST_METHOD'];
+        $url_uri            = $_SERVER['REQUEST_URI'];
+        $url_get_explode    = explode("?",$url_uri);
+        $url                = htmlspecialchars(ucfirst(str_replace("/","",$url_get_explode[0])));
+        $url_get            = isset($url_get_explode[1]) ? htmlspecialchars($url_get_explode[1]) : null;
 
-        if(count($url)<4){
-            $this->url_controller = isset($url[1]) ? $url[1] : null;
-            $this->url_action = isset($url[2]) ? $url[2] : null;
-            $this->url_get = $url_get;
-        }else{
-            http_response_code(404);
-            $this->url_controller = "NotfoundController";
-            logMessage('404',$url_uri.' NINCS ILYEN OLDAL');
-        }
+        $this->method       = $_SERVER['REQUEST_METHOD'];
+        $this->url          = $url;
+        $this->url_get      = $url_get;
+
 
     }
 

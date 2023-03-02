@@ -4,10 +4,10 @@ class RouteService {
 
     public function routes(){
         $routes = [
-            "get" => "getHome",
-            "getHome" => "getHome",
-            "getHome2Valami" => "getHomeValami2",
-            "getNotfound" => "getNotfound"
+            "get" => "Home@getHome",
+            "getHome" => "Home@getHome",
+            "getBejelentkezes" => "Login@getLogin",
+            "getRegisztracio" => "Login@getRegistration"
         ];
 
         return $routes;

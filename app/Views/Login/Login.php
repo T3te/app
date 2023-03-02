@@ -1,0 +1,3 @@
+<?php
+
+echo "EZ A BEJELENTKEZÉS OLDAL";
