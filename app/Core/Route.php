@@ -17,6 +17,7 @@ class Route {
         $url_request    = $method.$url;
         $route_service  = new \RouteService;
         $routes         = $route_service->routes();
+        
 
         if(array_key_exists($url_request, $routes)){
             $explode_service        = explode("@",$routes[$url_request]);
