@@ -15,4 +15,7 @@ class HomeController {
     public function getHomeValami(){
         echo "HOME VALAMI";
     }
+    public function getHome302(){
+        header('Location: /', true, 302);
+    }
 }
