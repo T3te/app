@@ -19,7 +19,7 @@ class LoginController {
         }else{
             header('Location: /', true, 302);
         }
-    } 
+    }
     public function getRegistration($page){
         $title = "Regisztráció";
         $view = "Registration";
