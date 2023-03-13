@@ -16,14 +16,14 @@
         <link rel="apple-touch-icon" sizes="180x180" href="app/icons/icon-192x192.png">
     </head>
     <body class="theme-light">
+         <div id="preloader"><div class="spinner-border color-highlight" role="status"></div></div>
+
+        <div id="page">
         <?php if ($error): ?>
             <div class="error-message">
                 <?php echo $error; ?>
             </div>
         <?php endif; ?>
-         <div id="preloader"><div class="spinner-border color-highlight" role="status"></div></div>
-
-        <div id="page">
             <?php
                 require_once "Header.php";
                 require_once "Footer.php";

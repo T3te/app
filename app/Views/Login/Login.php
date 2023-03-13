@@ -1,5 +1,3 @@
-<?php print_r(isset($_SESSION['userData']));?>
-
 <div class="page-content pb-0">
 
     <div data-card-height="cover-full" class="card mb-0" style="background-image:url(images/pictures/1l.jpg)">

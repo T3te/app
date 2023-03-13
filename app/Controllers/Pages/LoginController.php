@@ -12,9 +12,13 @@ class LoginController {
     }
 
     public function getLogin($page){
-        $title = "Bejelentkezes";
-        $view = "Login";
-        new Response($page, $title,$view, $this->error);
+        if(!isset($_SESSION['userData'])){
+            $title = "Bejelentkezes";
+            $view = "Login";
+            new Response($page, $title,$view, $this->error);
+        }else{
+            header('Location: /', true, 302);
+        }
     }
     public function getRegistration($page){
         $title = "Regisztráció";
@@ -22,7 +26,8 @@ class LoginController {
         new Response($page, $title, $view, $this->error);
     }
     public function getLogout(){
-        echo "HOME VALAMI";
+        session_destroy();
+        header('Location: bejelentkezes', true, 302);
     }
     public function postLogin($page){
         $username = $_POST['username'];
@@ -30,10 +35,13 @@ class LoginController {
 
         $userModel = new \UserModel();
         $result = $userModel->getUserByUsernamePassword($username, $password);
-
         $title = "Bejelentkezes";
         $view = "Login";
         $error = $result['error'];
+        if($error == null){
+            header('Location: /', true, 302);
+        }else{
         new Response($page, $title, $view, $error);
+        }
     }
 }
