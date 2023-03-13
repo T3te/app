@@ -15,8 +15,8 @@ class Route {
 
         $method         = strtolower($method);
         $url_request    = $method.$url;
-        $route_service  = new \RouteService;
-        $routes         = $route_service->routes();
+        $routeService   = new \RouteService;
+        $routes         = $routeService->routes();
         
 
         if(array_key_exists($url_request, $routes)){
@@ -48,8 +48,6 @@ class Route {
         $this->method       = $_SERVER['REQUEST_METHOD'];
         $this->url          = $url;
         $this->url_get      = $url_get;
-
-
     }
 
 }
